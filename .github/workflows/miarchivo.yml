@@ -1,20 +1,35 @@
-name: Flujo_trabajo_ARMANDO # nombre del flujo de trabajo
-# evento que activa el flujo de trabajo 
+name: Flujo_trabajo_ARMANDO
+
 on:
   push:
     branches:
       - master_armando
-# El flujo se ejecutará cada vez que haya un push (es decir, una actualización o un nuevo commit) a la rama main.
-# configuración del trabajo
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-# Identificador del trabajo (job) dentro del flujo de trabajo.
-  example-job:
-   # El job se ejecutará en un runner con el sistema operativo Ubuntu en su última versión.
+  deploy:
     runs-on: ubuntu-latest
-    # Pasos del job
+
     steps:
-      # Checkout del código
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Subir artefacto
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Desplegar en GitHub Pages
+        uses: actions/deploy-pages@v4
+
+        # Checkout del código
       - name: Checkout code
         uses: actions/checkout@v3
       # Este paso utiliza la acción oficial actions/checkout en su versión 3.
@@ -26,5 +41,3 @@ jobs:
           curl -H "Authorization: Bearer ${{ secrets.SECRET_ARMANDO }}" \
                -H "Accept: application/vnd.github.v3+json" \
                https://api.github.com/user/repos
-# GITHUB_TOKEN se genera automáticamente para cada ejecución del flujo y tiene permisos predeterminados para interactuar con el repositorio.
-# versión 3 de la API de GitHub.
