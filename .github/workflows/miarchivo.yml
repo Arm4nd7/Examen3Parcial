@@ -27,19 +27,5 @@ jobs:
           curl -H "Authorization: Bearer ${{ secrets.SECRET_ARMAND }}" \
                -H "Accept: application/vnd.github.v3+json" \
                https://api.github.com/user/repos
-               
-      - name: Checkout del código
-        uses: actions/checkout@v4
-
-      - name: Configurar GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Subir artefacto
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-
-      - name: Desplegar en GitHub Pages
-        uses: actions/deploy-pages@v4
 
        
